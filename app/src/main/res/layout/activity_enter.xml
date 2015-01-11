@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.haipeng.cishicike.EnterActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+        android:id="@+id/left_linearLayout"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:orientation="horizontal"
+        />
+
+    <LinearLayout
+        android:id="@+id/right_linearLayout"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:orientation="horizontal"/>
+
+</LinearLayout>

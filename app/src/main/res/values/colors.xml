@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="blue_light_one">#000080</color>
+    <color name="green_light_one">#548B54</color>
+    <color name="gold">#FFD700</color>
+    <color name="white">#FFFFFF</color>
+    <color name="actbar_background">#ffffff</color>
+    
+    <color name="actbar_text">#ffaaaaaa</color>
+    <color name="background">#ffeeeeee</color>
+    <color name="dark_go_blue">#212121</color>
+</resources>
