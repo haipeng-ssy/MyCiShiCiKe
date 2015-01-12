@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,9 @@ public class BaseActivity extends ActionBarActivity{
     DrawerAdapter drawerAdapter;
     DrawerLayout drawerLayout;
     List<String> mList = new ArrayList<String>();
+
+    ActionBar actionBar;
+    TextView mTitleView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +79,19 @@ public class BaseActivity extends ActionBarActivity{
         listView.setAdapter(drawerAdapter);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
+
+        //ActionBar 视图
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        View actionBarView = layoutInflater.from(actionBarActivity).inflate(R.layout.customer_main, null);
+        if (actionBarView != null) {
+            mTitleView = (TextView) actionBarView.findViewById(R.id.headerTitle);
+
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setLogo(getResources().getDrawable(R.drawable.ic_wfa));
+            actionBar.setCustomView(actionBarView);
+        }
 
 
     }
