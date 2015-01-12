@@ -2,31 +2,40 @@ package com.haipeng.cishicike;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-/**
- * Created by Administrator on 2015/1/11.
- */
-public class MainActivity extends BaseActivity {
-    Button myFriendBtn;
 
+public class XMPPChat extends BaseActivity {
+
+    Button button;
+    MyXMPPConnection myXMPPConnection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Init(this,R.layout.activity_main);
+        Init(this, R.layout.activity_xmppchat);
 
     }
 
     @Override
     public void initView() {
-        myFriendBtn = (Button) findViewById(R.id.main_btn_friend);
+        button = (Button) findViewById(R.id.btn);
     }
 
     @Override
     public void setUpView() {
-       myFriendBtn.setOnClickListener(this);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myXMPPConnection = new MyXMPPConnection();
+                boolean result =myXMPPConnection.mConnection();
+                String str = String.valueOf(result);
+                Toast.makeText(XMPPChat.this,str+"",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -45,18 +54,5 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId())
-        {
-            case R.id.main_btn_friend:
-                mStartActivity(this,new XMPPChat());
-                break;
-            default:
-                break;
-        }
     }
 }

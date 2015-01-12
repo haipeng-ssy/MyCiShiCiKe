@@ -22,4 +22,13 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
+    /**
+     *Smack for xmpp
+     * */
+    //Smack configuration with smack-extensions for XMPP over TCP
+    compile "org.igniterealtime.smack:smack-android-extensions:4.1.0-alpha5"
+    compile "org.igniterealtime.smack:smack-tcp:4.1.0-alpha5"
+    //Minimal Smack configuration for XMPP over TCP
+    compile "org.igniterealtime.smack:smack-android:4.1.0-alpha5"
+    compile "org.igniterealtime.smack:smack-tcp:4.1.0-alpha5"
 }

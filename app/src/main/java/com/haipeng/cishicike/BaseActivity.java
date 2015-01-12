@@ -1,5 +1,6 @@
 package com.haipeng.cishicike;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -17,10 +18,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.*;
+
 /**
  * Created by Tyler on 2015/1/11.
  */
-public class BaseActivity extends ActionBarActivity{
+public abstract  class BaseActivity extends ActionBarActivity implements OnClickListener {
 
     FrameLayout frameLayout=null;
     LayoutInflater layoutInflater;
@@ -38,16 +41,26 @@ public class BaseActivity extends ActionBarActivity{
         setContentView(R.layout.actionbar_drawer_toggle);
 
     }
+    public abstract  void initView();
+    public abstract  void setUpView();
     public void Init(ActionBarActivity actionBarActivity,int layoutId){
 
-        //FrameLayout的视图
-        frameLayout = (FrameLayout) findViewById(R.id.toggle_frameLayout);
-        View view = layoutInflater.from(actionBarActivity).inflate(layoutId, null);
-        frameLayout.addView(view);
-        //
+
+        //ActionBar 视图
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        View actionBarView = layoutInflater.from(actionBarActivity).inflate(R.layout.actionbar_veiw, null);
+        if (actionBarView != null) {
+            mTitleView = (TextView) actionBarView.findViewById(R.id.headerTitle);
+
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setLogo(getResources().getDrawable(R.drawable.ic_wfa));
+            actionBar.setCustomView(actionBarView);
+        }
+       // actionBarDrawerToggle视图
         drawerLayout = (DrawerLayout) findViewById(R.id.toggle_container);
 
-       // actionBarDrawerToggle视图
         listView = (ListView) findViewById(R.id.toggle_listView);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(actionBarActivity, drawerLayout,
@@ -80,21 +93,19 @@ public class BaseActivity extends ActionBarActivity{
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
 
-        //ActionBar 视图
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        View actionBarView = layoutInflater.from(actionBarActivity).inflate(R.layout.actionbar_veiw, null);
-        if (actionBarView != null) {
-            mTitleView = (TextView) actionBarView.findViewById(R.id.headerTitle);
+        //FrameLayout的视图
+        frameLayout = (FrameLayout) findViewById(R.id.toggle_frameLayout);
+        View view = layoutInflater.from(actionBarActivity).inflate(layoutId, null);
+        frameLayout.addView(view);
+        //
 
-            actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setLogo(getResources().getDrawable(R.drawable.ic_wfa));
-            actionBar.setCustomView(actionBarView);
-        }
 
+
+        initView();
+        setUpView();
 
     }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -121,6 +132,16 @@ public class BaseActivity extends ActionBarActivity{
             return false;
         }
         return actionBarDrawerToggle.onOptionsItemSelected(item);
+
+    }
+    public void mStartActivity(ActionBarActivity A,ActionBarActivity B){
+        Intent intent = new Intent();
+        intent.setClass(A,B.getClass());
+        A.startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }

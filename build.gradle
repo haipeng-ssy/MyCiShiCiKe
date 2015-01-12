@@ -3,6 +3,11 @@
 buildscript {
     repositories {
         jcenter()
+        //XMPP SMACK
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.0'
