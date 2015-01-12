@@ -44,12 +44,12 @@ public class DrawerAdapter extends BaseAdapter {
 		
 		if (position == 0) {
 			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.my_resource, null);
+					R.layout.personal_info, null);
 		} else {
 			ViewHolder viewHolder = null;
 			if (convertView == null) {
 				convertView = LayoutInflater.from(mContext).inflate(
-						R.layout.item_drawer, null);
+						R.layout.item_actionbat_drawer_toggle, null);
 				viewHolder = new ViewHolder();
 				viewHolder.mTV = (TextView) convertView
 						.findViewById(R.id.drawer_text);

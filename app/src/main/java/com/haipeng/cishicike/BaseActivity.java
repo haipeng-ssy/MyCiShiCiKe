@@ -35,7 +35,7 @@ public class BaseActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.drawer_layout);
+        setContentView(R.layout.actionbar_drawer_toggle);
 
     }
     public void Init(ActionBarActivity actionBarActivity,int layoutId){
@@ -83,7 +83,7 @@ public class BaseActivity extends ActionBarActivity{
         //ActionBar 视图
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        View actionBarView = layoutInflater.from(actionBarActivity).inflate(R.layout.customer_main, null);
+        View actionBarView = layoutInflater.from(actionBarActivity).inflate(R.layout.actionbar_veiw, null);
         if (actionBarView != null) {
             mTitleView = (TextView) actionBarView.findViewById(R.id.headerTitle);
 
