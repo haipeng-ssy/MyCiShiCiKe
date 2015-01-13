@@ -23,5 +23,7 @@
     </string-array>
 
     <string name="title_activity_xmppchat">XMPPChat</string>
+    <string name="title_activity_friends">FriendsActivity</string>
+    <string name="title_activity_chat">ChatActivity</string>
 
 </resources>
