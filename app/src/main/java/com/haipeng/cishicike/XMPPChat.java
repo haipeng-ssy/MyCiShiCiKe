@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 public class XMPPChat extends BaseActivity {
 
-    Button button;
+    Button btn_login,btn_send;
     MyXMPPConnection myXMPPConnection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,20 +22,35 @@ public class XMPPChat extends BaseActivity {
 
     @Override
     public void initView() {
-        button = (Button) findViewById(R.id.btn);
+        btn_login = (Button) findViewById(R.id.btn_login);
+        btn_send  = (Button) findViewById(R.id.btn_send);
     }
 
     @Override
     public void setUpView() {
-        button.setOnClickListener(new View.OnClickListener() {
+
+        btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myXMPPConnection = new MyXMPPConnection();
-                boolean result =myXMPPConnection.mConnection();
-                String str = String.valueOf(result);
-                Toast.makeText(XMPPChat.this,str+"",Toast.LENGTH_LONG).show();
+                myXMPPConnection.mConnection();
             }
         });
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myXMPPConnection.sendMsg(myXMPPConnection.getXMPPTCPConnection());
+            }
+        });
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                myXMPPConnection = new MyXMPPConnection();
+//                boolean result =myXMPPConnection.mConnection();
+//                String str = String.valueOf(result);
+//                Toast.makeText(XMPPChat.this,str+"",Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
 
     @Override

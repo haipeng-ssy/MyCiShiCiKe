@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.ChatMessageListener;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
@@ -62,7 +63,7 @@ public class MyXMPPConnection {
 //    String resource = "jadder.org";
 
     ConnectionConfiguration configuration;
-    XMPPTCPConnection connection;
+    XMPPTCPConnection connection = null;
 
     public class MyConnection extends AsyncTask<String, Integer, Boolean> {
         @Override
@@ -102,7 +103,7 @@ public class MyXMPPConnection {
         if (connection != null)
             try {
                 connection.login(username, password);
-                sendMsg(connection);
+//                sendMsg(connection);
                 return false;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -115,25 +116,48 @@ public class MyXMPPConnection {
         if (connection != null) {
             try {
 
-                Chat chat = ChatManager.getInstanceFor(connection).createChat(
-                        "xiaowang@3e9ty4tqgbjxh3m", new ChatMessageListener() {
-                            @Override
-                            public void processMessage(Chat chat, Message message) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("msg", message.getBody());
-                                android.os.Message message1 = new android.os.Message();
-                                message1.what = 0;
-                                message1.setData(bundle);
+                ChatManager chatManager = ChatManager.getInstanceFor(connection);
+                Chat chat = chatManager.createChat("xiaowang@3e9ty4tqgbjxh3m",null);
 
-                            }
-                        }
-                );
+                //监听获取到的信息
+                chatManager.addChatListener(new ChatManagerListener() {
+                    @Override
+                    public void chatCreated(Chat chat, boolean createdLocally) {
+
+                           chat.addMessageListener(new ChatMessageListener() {
+                               @Override
+                               public void processMessage(Chat chat, Message message) {
+                                   System.out.println(message.getBody());
+                               }
+
+                           });
+                    }
+
+                });
+
+//                chatManager.createChat(
+//                        "xiaowang@3e9ty4tqgbjxh3m", new ChatMessageListener() {
+//                            @Override
+//                            public void processMessage(Chat chat, Message message) {
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("msg", message.getBody());
+//                                android.os.Message message1 = new android.os.Message();
+//                                message1.what = 0;
+//                                message1.setData(bundle);
+//
+//                            }
+//                        }
+//                );
+                //发送的信息
                 chat.sendMessage("Hello World!");
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
+    }
+    public XMPPTCPConnection getXMPPTCPConnection(){
+        return connection;
     }
 
     public boolean mConnection() {
