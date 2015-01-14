@@ -132,10 +132,16 @@ public abstract  class BaseActivity extends ActionBarActivity implements OnClick
         return actionBarDrawerToggle.onOptionsItemSelected(item);
 
     }
-    public void mStartActivity(ActionBarActivity A,ActionBarActivity B){
+    public void mStartActivity(ActionBarActivity A,ActionBarActivity B,Bundle bundle){
         Intent intent = new Intent();
+        if(bundle == null);
+        else
+        intent.putExtra("bundle",bundle);
+
         intent.setClass(A,B.getClass());
+
         A.startActivity(intent);
+        finish();
     }
 
     @Override

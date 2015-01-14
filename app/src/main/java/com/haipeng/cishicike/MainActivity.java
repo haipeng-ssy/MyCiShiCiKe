@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity {
         switch (v.getId())
         {
             case R.id.main_btn_friend:
-                mStartActivity(this,new XMPPChat());
+                mStartActivity(MainActivity.this, new FriendsActivity(), null);
                 break;
             default:
                 break;

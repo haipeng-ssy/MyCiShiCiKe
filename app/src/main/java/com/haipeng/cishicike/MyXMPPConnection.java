@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.haipeng.util.myInterface.GetMsg;
+import com.haipeng.util.myInterface.IsLogin;
+import com.haipeng.util.resource.Paramers;
+
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
@@ -25,29 +29,27 @@ import java.io.IOException;
  */
 public class MyXMPPConnection {
 
+    private static MyXMPPConnection myXMPPConnection = null;
+    static Chat mChat;
+    static ChatManager mChatManager;
+    public static MyXMPPConnection getInstance() {
+        if (myXMPPConnection == null)
+            myXMPPConnection = new MyXMPPConnection();
 
-    //公司office computer
-    public static final String SERVER_HOST = "10.12.49.31";
-    public static final int SERVER_PORT = 5222;
-    public static final String SERVER_NAME = "mds-sunyiyan";
-
-    String username = "admin";
-    String password = "admin";
-
-    //宿舍网络，my computer
-//    public static final String SERVER_HOST = "192.168.1.103";
-//    public static final int SERVER_PORT = 5222;
-//    public static final String SERVER_NAME = "3e9ty4tqgbjxh3mr";
-//
-//
-//    String username = "admin";
-//    String password = "admin";
+        return myXMPPConnection;
+    }
 
 
     ConnectionConfiguration configuration;
     XMPPTCPConnection connection = null;
 
     public class MyConnection extends AsyncTask<String, Integer, Boolean> {
+        IsLogin isLogin;
+
+        public MyConnection(IsLogin mIsLogin) {
+            isLogin = mIsLogin;
+        }
+
         @Override
         protected Boolean doInBackground(String... params) {
             try {
@@ -56,15 +58,19 @@ public class MyXMPPConnection {
                 connection = new XMPPTCPConnection(configuration);
                 connection.connect();
                 login(params[3], params[4], connection);
+                isLogin.LoginSuccessed();
                 return true;
             } catch (SmackException exception) {
                 exception.printStackTrace();
+                isLogin.LoginFailed();
                 return false;
             } catch (XMPPException X) {
                 X.printStackTrace();
+                isLogin.LoginFailed();
                 return false;
             } catch (IOException io) {
                 io.printStackTrace();
+                isLogin.LoginFailed();
                 return false;
             }
         }
@@ -81,45 +87,67 @@ public class MyXMPPConnection {
         return false;
     }
 
-    public void sendMsg(XMPPTCPConnection connection) {
+    public void createChat(XMPPTCPConnection connection, String friendName) {
 
         if (connection != null) {
 
             try {
 
                 ChatManager chatManager = ChatManager.getInstanceFor(connection);
-                Chat chat = chatManager.createChat("xiaowang@3e9ty4tqgbjxh3m", null);
+                Chat chat = chatManager.createChat(friendName + "@3e9ty4tqgbjxh3m", null);
+                mChat = chat;
+                mChatManager = chatManager;
                 //发送的信息
-                chat.sendMessage("Hello World!");
-                //监听获取到的信息
-                chatManager.addChatListener(new ChatManagerListener() {
-                    @Override
-                    public void chatCreated(Chat chat, boolean createdLocally) {
-                        chat.addMessageListener(new ChatMessageListener() {
-                            @Override
-                            public void processMessage(Chat chat, Message message) {
-                                System.out.println(message.getBody());
-                            }
-
-                        });
-                    }
-
-                });
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
+    public Chat getChat(){
+        return mChat;
+    }
+    public ChatManager getChatManager(){
+        return mChatManager;
+    }
+    public void sendMsg(Chat chat, ChatManager chatManager,String myMsg) {
+
+        try {
+            chat.sendMessage(myMsg);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("SmackException.NoConnectionException");
+        }
+
+
+    }
+    public void getMsg(Chat chat, ChatManager chatManager, final GetMsg getMsg) {
+
+        //监听获取到的信息
+        chatManager.addChatListener(new ChatManagerListener() {
+            @Override
+            public void chatCreated(Chat chat, boolean createdLocally) {
+                chat.addMessageListener(new ChatMessageListener() {
+                    @Override
+                    public void processMessage(Chat chat, Message message) {
+                        getMsg.getMsg(message.getBody());
+
+                    }
+
+                });
+            }
+
+        });
+
+
+    }
     public XMPPTCPConnection getXMPPTCPConnection() {
         return connection;
     }
 
-    public boolean mConnection() {
-        MyConnection myConnection = new MyConnection();
-        myConnection.execute(new String[]{SERVER_HOST, SERVER_PORT + "", SERVER_NAME, username, password});
+    public boolean mConnection(String username, String password, IsLogin isLogin) {
+        MyConnection myConnection = new MyConnection(isLogin);
+        myConnection.execute(new String[]{Paramers.SERVER_HOST, Paramers.SERVER_PORT + "", Paramers.SERVER_NAME, username, password});
         return false;
     }
 }

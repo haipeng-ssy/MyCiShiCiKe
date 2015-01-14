@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class XMPPChat extends BaseActivity {
 
     Button btn_login,btn_send;
-    MyXMPPConnection myXMPPConnection;
+    private MyXMPPConnection myXMPPConnection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,19 +29,19 @@ public class XMPPChat extends BaseActivity {
     @Override
     public void setUpView() {
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myXMPPConnection = new MyXMPPConnection();
-                myXMPPConnection.mConnection();
-            }
-        });
-        btn_send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myXMPPConnection.sendMsg(myXMPPConnection.getXMPPTCPConnection());
-            }
-        });
+//        btn_login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                myXMPPConnection = MyXMPPConnection.getInstance();
+//                myXMPPConnection.mConnection();
+//            }
+//        });
+//        btn_send.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                myXMPPConnection.sendMsg(myXMPPConnection.getXMPPTCPConnection());
+//            }
+//        });
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

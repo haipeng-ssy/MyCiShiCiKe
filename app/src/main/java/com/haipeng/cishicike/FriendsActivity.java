@@ -1,19 +1,56 @@
 package com.haipeng.cishicike;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import com.haipeng.adapter.FriendsAdapter;
+import com.haipeng.entity.Friend;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class FriendsActivity extends ActionBarActivity {
+public class FriendsActivity extends BaseActivity {
 
+    ListView listView;
+    FriendsAdapter friendsAdapter;
+    List<Friend> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends);
+        Init(this,R.layout.activity_friends);
+
     }
 
+    @Override
+    public void initView() {
+        listView = (ListView) findViewById(R.id.activity_friend_lv);
+        list = new ArrayList<Friend>();
+    }
+
+    @Override
+    public void setUpView() {
+        Friend friend = new Friend();
+        friend.setFriendAvator("");
+        friend.setFriendName("xiaowang");
+        list.add(friend);
+        friendsAdapter = new FriendsAdapter(this,list);
+        listView.setAdapter(friendsAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                String friendName=friendsAdapter.getListFriends().get(position).getFriendName();
+                bundle.putString("friendName",friendName);
+                mStartActivity(FriendsActivity.this,new LoginActivity(),bundle);
+                finish();
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
