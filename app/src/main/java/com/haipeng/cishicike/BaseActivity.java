@@ -99,8 +99,6 @@ public abstract  class BaseActivity extends ActionBarActivity implements OnClick
         frameLayout.addView(view);
         //
 
-
-
         initView();
         setUpView();
 
