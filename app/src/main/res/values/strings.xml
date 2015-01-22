@@ -16,15 +16,17 @@
     <string name="string_drawer_close">drawerclose</string>
 
     <string-array name="string_array_drawer">
-        <item>兴趣</item>
-        <item>Party</item>
-        <item>谋划</item>
-        <item>朋友</item>
+        <item>[A]兴趣</item>
+        <item>[B]Party</item>
+        <item>[C]谋划</item>
+        <item>[D]朋友</item>
+        <item>[E]得到后台数据</item>
     </string-array>
 
     <string name="title_activity_xmppchat">XMPPChat</string>
     <string name="title_activity_friends">FriendsActivity</string>
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_get_java_eeresponse">GetJavaEEResponse</string>
 
 </resources>

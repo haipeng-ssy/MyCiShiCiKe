@@ -1,7 +1,9 @@
 package com.haipeng.cishicike;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,14 +12,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.haipeng.util.myInterface.ToggleInter;
+
 public class DrawerAdapter extends BaseAdapter {
 
 	Context mContext;
 	List<String> mList = new ArrayList<String>();
-
-	public DrawerAdapter(Context context, List<String> list) {
+    ToggleInter mToggleInter;
+   static Map<Integer,String> jugeList = new HashMap<Integer,String>();
+	public DrawerAdapter(Context context, List<String> list,ToggleInter toggleInter) {
 		mList = list;
 		mContext = context;
+        mToggleInter = toggleInter;
 	}
 
 	@Override
@@ -39,7 +45,7 @@ public class DrawerAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		
 		if (position == 0) {
@@ -58,8 +64,18 @@ public class DrawerAdapter extends BaseAdapter {
 			} else {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
-			viewHolder.mTV.setText(mList.get(position - 1));
+            String mStr = mList.get(position-1);
+            String str1 = mStr.substring(mStr.indexOf("[")+1,mStr.indexOf("]"));
+            jugeList.put(position,str1);
+            String str2 = mStr.substring(mStr.indexOf("]")+1,mStr.length());
+			viewHolder.mTV.setText(str2);
 		}
+        convertView .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mToggleInter.OnClickToggle(jugeList.get(position));
+            }
+        });
 		return convertView;
 	}
 

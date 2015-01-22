@@ -15,6 +15,9 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.haipeng.others.GetJavaEEResponse;
+import com.haipeng.util.myInterface.ToggleInter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +26,7 @@ import static android.view.View.*;
 /**
  * Created by Tyler on 2015/1/11.
  */
-public abstract  class BaseActivity extends ActionBarActivity implements OnClickListener {
+public abstract  class BaseActivity extends ActionBarActivity implements OnClickListener,ToggleInter {
 
     FrameLayout frameLayout=null;
     LayoutInflater layoutInflater;
@@ -88,7 +91,7 @@ public abstract  class BaseActivity extends ActionBarActivity implements OnClick
         for (String str : drawers) {
             mList.add(str);
         }
-        drawerAdapter = new DrawerAdapter(actionBarActivity, mList);
+        drawerAdapter = new DrawerAdapter(actionBarActivity, mList,(ToggleInter)actionBarActivity);
         listView.setAdapter(drawerAdapter);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
@@ -147,5 +150,33 @@ public abstract  class BaseActivity extends ActionBarActivity implements OnClick
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void OnClickToggle(String str) {
+        finish();
+        Intent intent = null;
+        switch (str){
+            case "A":
+
+//                intent = new Intent(this,);
+                break;
+            case "B":
+//                intent = new Intent(this,);
+                break;
+            case "C":
+//                intent = new Intent(this,);
+                break;
+            case "D":
+//                intent = new Intent(this,);
+                break;
+            case "E":
+                intent = new Intent(this, GetJavaEEResponse.class);
+                break;
+
+            default:
+                break;
+        }
+        startActivity(intent);
     }
 }
