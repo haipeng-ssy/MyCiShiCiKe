@@ -16,6 +16,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -48,6 +49,7 @@ public class GetJavaEEResponse extends ActionBarActivity {
             HttpGet    httpGet    = new HttpGet(params[0]);
             httpGet.setHeader("myphone","huawei");
             StringBuffer stringBuffer = new StringBuffer();
+            String htc=null;
             try {
 
                 HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -59,7 +61,11 @@ public class GetJavaEEResponse extends ActionBarActivity {
                     stringBuffer.append(strResult);
                     strResult = bufferedReader.readLine();
 
+
                 }
+                JSONObject jsonObject = new JSONObject(stringBuffer.toString());
+                htc = jsonObject.getString("htc");
+
                 bufferedReader.close();
 
             }catch (Exception e)
@@ -67,7 +73,7 @@ public class GetJavaEEResponse extends ActionBarActivity {
               e.printStackTrace();
 
             }
-            return stringBuffer.toString();
+            return htc;
         }
 
         @Override
